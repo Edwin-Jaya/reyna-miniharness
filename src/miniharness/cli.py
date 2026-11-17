@@ -1,9 +1,16 @@
-import argparse
-from llm import generate_answers
+# cli.py
+import sys
 
-parser = argparse.ArgumentParser(description="Enter Question")
-parser.add_argument("question", type=str, help="Question for the bots")
+from miniharness import llm
+from miniharness.agent.loop import Agent
+from miniharness.tools import build_default_registry
 
-args = parser.parse_args()
-ans = generate_answers(args.question)
-print(ans)
+
+def main() -> None:
+    task = " ".join(sys.argv[1:]) or input("Task: ")
+    agent = Agent(chat=llm.chat, registry=build_default_registry())
+    print(agent.run(task))
+
+
+if __name__ == "__main__":
+    main()
