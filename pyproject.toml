@@ -1,3 +1,27 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "miniharness"
+version = "0.1.0"
+description = "A from-scratch tool-calling agent loop"
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic",
+    "python-dotenv",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+miniharness = "miniharness.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["miniharness*"]
+
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["src/tests"]
