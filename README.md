@@ -6,7 +6,7 @@ I built it because I wanted to see exactly what happens between "the model asked
 
 **Phase 1 (the harness) is done.** Phase 2 (evaluation) comes next.
 
-Write-up: [Why My First Agent Fell Apart in One File](https://medium.com/@edwinjaya/why-my-first-agent-fell-apart-in-one-file-d27f33f83a2a)
+Write-up: [Why My First Agent Fell Apart in One File](https://medium.com/@edwinjaya/why-my-first-agent-fell-apart-in-one-file-6798826e40f4)
 
 ## What happens when you ask it something
 
