@@ -2,9 +2,11 @@
 
 Reyna is a tool-calling agent loop I wrote from scratch, small enough to read in one sitting.
 
-I built it because I kept using agent frameworks without really knowing what happens between "the model asked for a tool" and "the model gave an answer". It turns out the core is about 44 lines: send messages, run whatever tools the model asks for, send the results back, and repeat until it answers or runs out of steps. Everything else in this repo exists to make that loop safe to run and easy to test.
+I built it because I wanted to see exactly what happens between "the model asked for a tool" and "the model gave an answer". It turns out the loop is small: send messages, run whatever tools the model asks for, send the results back, and repeat until it answers or runs out of steps. The whole `loop.py` file is 44 lines. Everything else in this repo exists to make that loop safe to run and easy to test.
 
 **Phase 1 (the harness) is done.** Phase 2 (evaluation) comes next.
+
+Write-up: [Why My First Agent Fell Apart in One File](https://medium.com/@edwinjaya/why-my-first-agent-fell-apart-in-one-file-d27f33f83a2a)
 
 ## What happens when you ask it something
 
@@ -52,7 +54,7 @@ src/
 
 **`read_file` stays inside its folder.** Paths are resolved and checked with `is_relative_to(workspace)`, so `../../etc/passwd` raises `PermissionError`. Output is cut off at 10k characters so a big file can't eat the context window.
 
-**Empty replies get retried.** Smaller and local models sometimes end a turn with no text and no tool call. The loop doesn't return that as the answer. It just asks again, and the retry still counts toward `MAX_STEPS`.
+**Empty replies get retried.** Smaller and local models sometimes end a turn with no text and no tool call. The loop doesn't return that as the answer. It just asks again, and the retry still counts toward `MAX_STEPS`. I saw this with Gemma 4 E4B in LM Studio: after a tool result it returned an empty reply once, and the retry got the answer.
 
 ## Setup
 
@@ -75,6 +77,13 @@ API_KEY=sk-...
 WORKSPACE=data/workspace
 ```
 
+To run against a local model in LM Studio, point `ENDPOINT` at its local server and set `MODEL` to the model you loaded:
+
+```ini
+ENDPOINT=http://127.0.0.1:<port>     # LM Studio local server
+MODEL=google/gemma-4-e4b
+```
+
 ## Running it
 
 ```bash
@@ -85,6 +94,8 @@ miniharness "Summarise notes.txt"     # reads data/workspace/notes.txt
 `python -m miniharness.cli "..."` does the same thing.
 
 If you leave out the task, it asks for one with `Task: `.
+
+I have run it with Gemma 4 E4B served by LM Studio through the Anthropic SDK.
 
 ## Tests
 
