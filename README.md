@@ -2,7 +2,7 @@
 
 Reyna is a tool-calling agent loop I wrote from scratch, small enough to read in one sitting.
 
-I built it because I kept using agent frameworks without really knowing what happens between "the model asked for a tool" and "the model gave an answer". It turns out the core is about 30 lines: send messages, run whatever tools the model asks for, send the results back, and repeat until it answers or runs out of steps. Everything else in this repo exists to make that loop safe to run and easy to test.
+I built it because I kept using agent frameworks without really knowing what happens between "the model asked for a tool" and "the model gave an answer". It turns out the core is about 44 lines: send messages, run whatever tools the model asks for, send the results back, and repeat until it answers or runs out of steps. Everything else in this repo exists to make that loop safe to run and easy to test.
 
 **Phase 1 (the harness) is done.** Phase 2 (evaluation) comes next.
 
